@@ -70,13 +70,13 @@ class mqttDomoticz(object):
 		self.client.publish("domoticz/in", '{"idx":102,"nvalue":' + str(int(humi)) + '}')
 
 	def publish_volt(self, volt):
-		self.client.publish("domoticz/in", '{"idx":99, "nvalue":0,"svalue":"' + str(round(volt, 3) + '"}')
+		self.client.publish("domoticz/in", '{"idx":99, "nvalue":0,"svalue":"' + str(round(volt, 3)) + '"}')
 
 	def publish_curr(self, curr):
-		self.client.publish("domoticz/in", '{"idx":98, "nvalue":0,"svalue":"' + str(round(curr, 3) + '"}')
+		self.client.publish("domoticz/in", '{"idx":98, "nvalue":0,"svalue":"' + str(round(curr, 3)) + '"}')
 
-        def publish_batt(self, volt):
-                self.client.publish("domoticz/in", '{"idx":137, "nvalue":0,"svalue":"' + str(round(volt, 3) + '"}')
+	def publish_batt(self, volt):
+		self.client.publish("domoticz/in", '{"idx":137, "nvalue":0,"svalue":"' + str(round(volt, 3)) + '"}')
 		
 
 def main():
