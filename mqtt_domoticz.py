@@ -6,9 +6,9 @@ import paho.mqtt.client as mqttClient
 import json
 
 host_name = "broker.example.com"	# Broker address
-host_port = 1883									# Broker port
-host_user = "mqttuser"						# Connection username
-host_pass = "password"						# Connection password
+host_port = 1883			# Broker port
+host_user = "mqttuser"			# Connection username
+host_pass = "password"			# Connection password
 
 class mqttDomoticz(object):
 
@@ -70,11 +70,15 @@ class mqttDomoticz(object):
 		self.client.publish("domoticz/in", '{"idx":102,"nvalue":' + str(int(humi)) + '}')
 
 	def publish_volt(self, volt):
-		self.client.publish("domoticz/in", '{"idx":99, "nvalue":0,"svalue":"' + str(volt) + '"}')
+		self.client.publish("domoticz/in", '{"idx":99, "nvalue":0,"svalue":"' + str(round(volt, 3) + '"}')
 
 	def publish_curr(self, curr):
-		self.client.publish("domoticz/in", '{"idx":98, "nvalue":0,"svalue":"' + str(curr) + '"}')
+		self.client.publish("domoticz/in", '{"idx":98, "nvalue":0,"svalue":"' + str(round(curr, 3) + '"}')
+
+        def publish_batt(self, volt):
+                self.client.publish("domoticz/in", '{"idx":137, "nvalue":0,"svalue":"' + str(round(volt, 3) + '"}')
 		
+
 def main():
 	if len(sys.argv) > 1:
 		host = str(sys.argv[1])
@@ -95,4 +99,4 @@ def main():
 	except Exception as e: print(e)
 
 if __name__ == '__main__':
-  main()
+	main()
