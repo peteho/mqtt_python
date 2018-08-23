@@ -4,19 +4,25 @@ import sys
 import time
 import paho.mqtt.client as mqttClient
 import json
+import ssl
 
 host_name = "broker.example.com"	# Broker address
-host_port = 1883			# Broker port
+host_port = 8883					# Broker port
 host_user = "mqttuser"			# Connection username
 host_pass = "password"			# Connection password
+CERT_PATH = "cert.pem"
 
 class mqttDomoticz(object):
 
-	def __init__(self, host = host_name, port = host_port, user = host_user, password = host_pass):
+	def __init__(self, host = host_name, port = host_port, user = host_user, password = host_pass, cert_path = CERT_PATH):
 		self.client = mqttClient.Client("Python")               #create new instance
 		self.client.username_pw_set(user, password=password)    #set username and password
 		self.client.on_connect= self.on_connect                      #attach function to callback
-		self.client.on_publish = self.on_publish       
+		self.client.on_publish = self.on_publish
+		self.client.tls_set(ca_certs = cert_path, certfile = None, 
+					keyfile = None, cert_reqs = ssl.CERT_REQUIRED,
+					tls_version = ssl.PROTOCOL_TLSv1_2, ciphers = None)
+		self.client.tls_insecure_set(False)	     
 		self.client.message_callback_add('domoticz/in', self.on_message)
 		self.Connected = False
 		
